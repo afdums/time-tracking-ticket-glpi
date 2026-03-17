@@ -30,7 +30,7 @@ function plugin_time_tracking_ticket_glpi_deactivate(): bool {
    return true;
 }
 
-function plugin_time_tracking_ticket_glpi_init(): void {
+function plugin_init_time_tracking_ticket_glpi(): void {
    global $PLUGIN_HOOKS;
 
    $PLUGIN_HOOKS['csrf_compliant']['time_tracking_ticket_glpi'] = true;
@@ -40,12 +40,12 @@ function plugin_time_tracking_ticket_glpi_init(): void {
 
 function plugin_version_time_tracking_ticket_glpi(): array {
    return [
-      'name'           => 'Registro de Tempo de Ticket',
-      'version'        => '1.0.0',
-      'author'         => 'GLPI Plugin',
-      'license'        => 'GPLv2+',
-      'homepage'       => 'https://glpi-project.org',
-      'requirements'   => [
+      'name'         => 'Registro de Tempo de Ticket',
+      'version'      => '1.0.0',
+      'author'       => 'GLPI Plugin',
+      'license'      => 'GPLv2+',
+      'homepage'     => 'https://glpi-project.org',
+      'requirements' => [
          'glpi' => [
             'min' => '10.0.0',
             'max' => '11.999.999',
@@ -60,13 +60,14 @@ function plugin_time_tracking_ticket_glpi_postItemForm(array $params): void {
    }
 
    $ticket = $params['item'];
-   $ticket_id = (int)$ticket->getID();
+   $ticket_id = (int) $ticket->getID();
    if ($ticket_id <= 0) {
       return;
    }
 
    $url = PluginTimeTrackerTicketTime::getPluginBaseUrl()
       . '/front/time_register.php?tickets_id=' . $ticket_id;
+
    echo "<div class='plugin_time_tracking_ticket_glpi_button mt-1 mb-1 me-2'>";
    echo "<a class='vsubmit' href='" . htmlspecialchars($url, ENT_QUOTES) . "'>"
       . __('Registro de Tempo', 'time_tracking_ticket_glpi') . '</a>';
